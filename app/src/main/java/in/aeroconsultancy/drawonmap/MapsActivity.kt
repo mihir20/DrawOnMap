@@ -2,6 +2,7 @@ package `in`.aeroconsultancy.drawonmap
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -9,9 +10,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import kotlinx.android.synthetic.main.activity_maps.*
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(),
+        OnMapReadyCallback{
+
+    var polyLine:Polyline? = null
+    var lines = ArrayList<LatLng>()
 
     private lateinit var mMap: GoogleMap
 
@@ -22,6 +29,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        addFab.isEnabled = false
+        addFab.setOnClickListener{
+            lines.add(mMap.cameraPosition.target)
+            addPoint()
+        }
+    }
+
+    private fun addPoint() {
+
+        polyLine = mMap.addPolyline(PolylineOptions().clickable(false).addAll(lines))
     }
 
     /**
@@ -35,25 +52,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        addFab.isEnabled = true
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        val sydney = LatLng(-34.0, 151.0)-
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,14f))
 
 
         /**
          * my code starts here
          */
-
-        var polyLIne = mMap.addPolyline(PolylineOptions().clickable(false).add(
-                LatLng(-29.501, 119.700),
-                LatLng(-27.456, 119.672),
-                LatLng(-25.971, 124.187),
-                LatLng(-28.081, 126.555),
-                LatLng(-28.848, 124.229),
-                LatLng(-28.215, 123.938))
-        )
     }
-}
 
+}
