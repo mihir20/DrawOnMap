@@ -32,11 +32,18 @@ class MapsActivity : AppCompatActivity(),
         addFab.isEnabled = false
         addFab.setOnClickListener{
             lines.add(mMap.cameraPosition.target)
-            addPoint()
+            loadPoints()
+        }
+        undoFab.setOnClickListener{
+            mMap.clear()
+            if(lines.size != 0){
+            lines.removeAt(lines.size-1)
+            loadPoints()
+            }
         }
     }
 
-    private fun addPoint() {
+    private fun loadPoints() {
 
         polyLine = mMap.addPolyline(PolylineOptions().clickable(false).addAll(lines))
     }
@@ -55,13 +62,8 @@ class MapsActivity : AppCompatActivity(),
         addFab.isEnabled = true
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)-
+        val sydney = LatLng(-34.0, 151.0)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,14f))
-
-
-        /**
-         * my code starts here
-         */
     }
 
 }
