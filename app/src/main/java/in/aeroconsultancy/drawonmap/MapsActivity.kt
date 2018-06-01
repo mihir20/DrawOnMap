@@ -14,8 +14,15 @@ import kotlinx.android.synthetic.main.activity_maps.*
 class MapsActivity : AppCompatActivity(),
         OnMapReadyCallback{
 
+    final val LINEDRAWING:Int? = 1
+    final val POLYGONDRAWING:Int? = 2
+    var OPTIONSELECTED:Int? = null
+
     var polyLine:Polyline? = null
+
     var lines = ArrayList<LatLng>()
+
+    var polygon:Polygon? = null
 
     private lateinit var mMap: GoogleMap
 
@@ -28,19 +35,48 @@ class MapsActivity : AppCompatActivity(),
         mapFragment.getMapAsync(this)
         addFab.isEnabled = false
         addFab.setOnClickListener{
+
+            if (OPTIONSELECTED == LINEDRAWING){
             lines.add(mMap.cameraPosition.target)
-            loadPoints()
+                loadLines()
+            }else{
+                lines.add(mMap.cameraPosition.target)
+                loadPoints()
+            }
         }
         undoFab.setOnClickListener{
             mMap.clear()
             if(lines.size != 0){
             lines.removeAt(lines.size-1)
-            loadPoints()
+                loadLines()
             }
+        }
+        optionFab.setOnClickListener{
+            if (lineFab.visibility == View.GONE){
+                lineFab.visibility = View.VISIBLE
+                polygonFab.visibility = View.VISIBLE
+            }else{
+                lineFab.visibility = View.GONE
+                polygonFab.visibility = View.GONE
+            }
+        }
+        lineFab.setOnClickListener {
+            OPTIONSELECTED = LINEDRAWING
+            lineFab.visibility = View.GONE
+            polygonFab.visibility = View.GONE
+        }
+        polygonFab.setOnClickListener {
+            OPTIONSELECTED = POLYGONDRAWING
+            lineFab.visibility = View.GONE
+            polygonFab.visibility = View.GONE
         }
     }
 
     private fun loadPoints() {
+        polygon = mMap.addPolygon(PolygonOptions().clickable(false).addAll(lines))
+    }
+
+    private fun loadLines() {
 
         polyLine = mMap.addPolyline(PolylineOptions().clickable(false).addAll(lines))
     }
@@ -62,13 +98,6 @@ class MapsActivity : AppCompatActivity(),
         val sydney = LatLng(-34.0, 151.0)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,14f))
 
-        val polygon1 = googleMap.addPolygon(PolygonOptions()
-                .clickable(true)
-                .add(
-                        LatLng(-27.457, 153.040),
-                        LatLng(-33.852, 151.211),
-                        LatLng(-37.813, 144.962),
-                        LatLng(-34.928, 138.599)))
     }
 
 }

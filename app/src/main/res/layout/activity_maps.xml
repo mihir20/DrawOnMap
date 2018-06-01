@@ -4,6 +4,37 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/optionFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_label_outline_black_24dp"
+        map:fabSize="normal"
+        android:layout_alignTop="@id/map"
+        android:layout_alignRight="@id/map"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/lineFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_timeline_black_24dp"
+        map:fabSize="normal"
+        android:layout_toLeftOf="@id/optionFab" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/polygonFab"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_polymer_black_24dp"
+        map:fabSize="normal"
+        android:layout_below="@id/optionFab"
+        android:layout_alignRight="@id/map"/>
+
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
