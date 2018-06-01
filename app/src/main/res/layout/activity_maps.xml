@@ -35,6 +35,15 @@
         android:layout_below="@id/optionFab"
         android:layout_alignRight="@id/map"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/saveFab"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:src="@drawable/ic_polymer_black_24dp"
+        map:fabSize="normal"
+        android:layout_alignLeft="@id/map"/>
 
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"

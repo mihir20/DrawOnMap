@@ -14,8 +14,9 @@ import kotlinx.android.synthetic.main.activity_maps.*
 class MapsActivity : AppCompatActivity(),
         OnMapReadyCallback{
 
-    final val LINEDRAWING:Int? = 1
-    final val POLYGONDRAWING:Int? = 2
+    //for options in type of drawing
+    val LINEDRAWING:Int? = 1
+    val POLYGONDRAWING:Int? = 2
     var OPTIONSELECTED:Int? = null
 
     var polyLine:Polyline? = null
@@ -34,8 +35,9 @@ class MapsActivity : AppCompatActivity(),
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         addFab.isEnabled = false
-        addFab.setOnClickListener{
 
+
+        addFab.setOnClickListener{
             if (OPTIONSELECTED == LINEDRAWING){
             lines.add(mMap.cameraPosition.target)
                 loadLines()
@@ -45,11 +47,7 @@ class MapsActivity : AppCompatActivity(),
             }
         }
         undoFab.setOnClickListener{
-            mMap.clear()
-            if(lines.size != 0){
-            lines.removeAt(lines.size-1)
-                loadLines()
-            }
+            undo()
         }
         optionFab.setOnClickListener{
             if (lineFab.visibility == View.GONE){
@@ -72,10 +70,29 @@ class MapsActivity : AppCompatActivity(),
         }
     }
 
+
+    /**
+     * undo last move
+     */
+    private fun undo() {
+        mMap.clear()
+        if(lines.size != 0){
+            lines.removeAt(lines.size-1)
+            loadLines()
+        }
+    }
+
+    /**
+     * load points for polygons
+     */
     private fun loadPoints() {
+        mMap.clear()
         polygon = mMap.addPolygon(PolygonOptions().clickable(false).addAll(lines))
     }
 
+    /**
+     * load lines for polylines
+     */
     private fun loadLines() {
 
         polyLine = mMap.addPolyline(PolylineOptions().clickable(false).addAll(lines))
