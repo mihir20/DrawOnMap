@@ -8,10 +8,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_maps.*
 
 class MapsActivity : AppCompatActivity(),
@@ -64,6 +61,14 @@ class MapsActivity : AppCompatActivity(),
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,14f))
+
+        val polygon1 = googleMap.addPolygon(PolygonOptions()
+                .clickable(true)
+                .add(
+                        LatLng(-27.457, 153.040),
+                        LatLng(-33.852, 151.211),
+                        LatLng(-37.813, 144.962),
+                        LatLng(-34.928, 138.599)))
     }
 
 }
