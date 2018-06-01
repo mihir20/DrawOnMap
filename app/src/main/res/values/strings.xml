@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DrawOnMap</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
